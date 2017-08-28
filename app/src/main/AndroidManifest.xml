@@ -1,0 +1,31 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
+    package="com.melco.androidpoc.w3cserver"
+    android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Transparent">
+
+            <receiver android:name=".W3CServerStarter" android:exported="true">>
+                <intent-filter>
+                    <action android:name="android.intent.action.BOOT_COMPLETED" />
+                    <action android:name="com.melco.androidpoc.w3cserver.W3CServerStarter" />
+                </intent-filter>
+            </receiver>
+
+            <activity android:name=".W3CServerActivity">
+                <intent-filter>
+                    <action android:name="android.intent.action.MAIN"/>
+                    <category android:name="android.intent.category.LAUNCHER"/>
+                </intent-filter>
+            </activity>
+
+            <service android:enabled="true" android:name=".W3CServerService" />
+
+        </application>
+        <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
+    </manifest>
