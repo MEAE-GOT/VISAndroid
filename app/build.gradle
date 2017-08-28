@@ -19,6 +19,16 @@ android {
     }
     productFlavors {
     }
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.1'
+    }
+    packagingOptions {
+        pickFirst 'draftv3/schema'
+        pickFirst 'draftv4/schema'
+        pickFirst 'META-INF/ASL-2.0.txt'
+        pickFirst 'META-INF/LGPL-3.0.txt'
+        pickFirst 'META-INF/LICENSE'
+    }
 }
 
 dependencies {
@@ -27,5 +37,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:26.+'
+    compile 'org.java-websocket:Java-WebSocket:1.3.4'
+    compile 'com.github.java-json-tools:json-schema-validator:2.2.8'
     testCompile 'junit:junit:4.12'
 }

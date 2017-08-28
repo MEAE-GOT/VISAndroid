@@ -6,6 +6,8 @@ import android.widget.Toast;
 import android.content.Intent;
 import android.util.Log;
 
+import com.melco.androidpoc.w3cserver.requesthandlers.RequestHandler;
+
 /**
  * Created by danieln on 2017-08-22.
  */
@@ -21,6 +23,7 @@ public class W3CServerActivity extends Activity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.main);
         Toast.makeText(getBaseContext(), "W3CServer", Toast.LENGTH_LONG).show();
+
 
         //If background service not running, start it
         Intent intent = new Intent(this, W3CServerStarter.class);
