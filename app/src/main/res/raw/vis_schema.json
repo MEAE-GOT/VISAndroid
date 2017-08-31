@@ -33,10 +33,10 @@
       "required" : ["action", "tokens", "requestId"]
     },
     {
-      "title": "GetVSS Request",
+      "title": "Get Metadata Request",
       "type": "object",
       "properties": {
-        "action": 		{"enum": ["getVSS"]},
+        "action": 		{"enum": ["getMetadata"]},
         "path": 		{"type": "string"},
         "requestId": 	{"type": "string"}
       },
@@ -99,7 +99,7 @@
 
   "definitions": {
     "action": {
-      "enum": [ "authorize", "getVSS", "get", "set", "subscribe", "subscription", "unsubscribe", "unsubscribeAll"],
+      "enum": [ "authorize", "getMetadata", "get", "set", "subscribe", "subscription", "unsubscribe", "unsubscribeAll"],
       "description": "The type of action requested by the client or delivered by the server"
     },
     "requestId": {

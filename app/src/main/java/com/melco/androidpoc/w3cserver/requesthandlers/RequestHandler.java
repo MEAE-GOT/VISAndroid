@@ -1,17 +1,13 @@
 package com.melco.androidpoc.w3cserver.requesthandlers;
 
 
-import android.net.Uri;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonLoader;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
-import com.github.fge.jsonschema.examples.Utils;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.melco.androidpoc.w3cserver.Constants;
-import com.melco.androidpoc.w3cserver.R;
 import com.melco.androidpoc.w3cserver.W3CWebSocket;
 import com.melco.androidpoc.w3cserver.requests.Request;
 import com.melco.androidpoc.w3cserver.signalinterface.SignalInterface;
@@ -21,7 +17,6 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 
 public abstract class RequestHandler implements IRequestHandler {
 	protected Request _request;
@@ -78,8 +73,8 @@ public abstract class RequestHandler implements IRequestHandler {
 					return new SetRequestHandler(clientsocket, request, signalinterface);
 				case Constants.REQUEST_AUTHORIZE:
 					return new AuthorizeRequestHandler(clientsocket, request, signalinterface);
-				case Constants.REQUEST_GETVSS:
-					return new GetVssRequestHandler(clientsocket, request, signalinterface);
+				case Constants.REQUEST_GETMETADATA:
+					return new GetMetadataRequestHandler(clientsocket, request, signalinterface);
 				case Constants.REQUEST_SUBSCRIBE:
 					return new SubscribeRequestHandler(clientsocket, request, signalinterface);
 				case Constants.REQUEST_UNSUBSCRIBE:

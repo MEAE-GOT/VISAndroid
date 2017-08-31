@@ -14,7 +14,7 @@ public class Constants {
     public static final String REQUEST_GET = "get";
     public static final String REQUEST_SET = "set";
     public static final String REQUEST_AUTHORIZE = "authorize";
-    public static final String REQUEST_GETVSS = "getVss";
+    public static final String REQUEST_GETMETADATA = "getMetadata";
     public static final String REQUEST_SUBSCRIBE = "subscribe";
     public static final String REQUEST_UNSUBSCRIBE = "unsubscribe";
     public static final String REQUEST_UNSUBSCRIBEALL = "unsubscribeall";
