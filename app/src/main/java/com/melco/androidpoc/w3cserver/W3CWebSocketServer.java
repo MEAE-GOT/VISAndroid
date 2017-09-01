@@ -40,23 +40,21 @@ public class W3CWebSocketServer extends WebSocketServer {
 		W3CWebSocket clientsocket = (W3CWebSocket)socket;
 
         Log.d(Constants.LOG_TAG, "Message Received on W3CWebSocketServer");
-        if(!RequestHandler.ValidateRequest(message)){
-            clientsocket.send("Request failed validation");
-            return;
+        try{
+            Request request = new Request(message);     // Throws
+
+            RequestHandler.ValidateRequest(request);    // Throws
+
+            SignalInterface signalinterface = new AndroidSignalInterface(); // should throw
+
+            RequestHandler handler = RequestHandler.ProcessRequest(clientsocket, request, signalinterface); // Throws
+
+            handler.HandleRequest(); // Throws
         }
-        clientsocket.send("Request passed validation");
-
-        // TODO make this return an error code instead of object, return error to client
-        Request request = new Request(message);
-
-        // TODO make this return an error code instead of object, return error to client
-        SignalInterface signalinterface = new AndroidSignalInterface();
-
-        // TODO make this return an error code instead of object, return error to client
-        RequestHandler handler = RequestHandler.ProcessRequest(clientsocket, request, signalinterface);
-
-        handler.HandleRequest();
-
+        catch (W3CErrorException e)
+        {
+            clientsocket.send(e.getErrorMessage());
+        }
 	}
 
 	@Override

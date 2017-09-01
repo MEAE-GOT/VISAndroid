@@ -8,6 +8,8 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.melco.androidpoc.w3cserver.Constants;
+import com.melco.androidpoc.w3cserver.W3CError;
+import com.melco.androidpoc.w3cserver.W3CErrorException;
 import com.melco.androidpoc.w3cserver.W3CWebSocket;
 import com.melco.androidpoc.w3cserver.requests.Request;
 import com.melco.androidpoc.w3cserver.signalinterface.SignalInterface;
@@ -46,45 +48,35 @@ public abstract class RequestHandler implements IRequestHandler {
         }
     }
 
-	public static boolean ValidateRequest(String json) {
+	public static void ValidateRequest(Request request) throws W3CErrorException {
 		try {
-			JsonNode node = JsonLoader.fromString(json);
-			ProcessingReport report = schema.validate(node);
-
-			return report.isSuccess();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-            return false;
+			ProcessingReport report = schema.validate(request._jsonNode);
 		}
+		// Request did not validate correctly.
 		catch (ProcessingException e) {
-			//e.printStackTrace();
-            return false;
+            throw new W3CErrorException(W3CError.ERROR_GENERAL);
 		}
 	}
 
-	public static RequestHandler ProcessRequest(W3CWebSocket clientsocket, Request request, SignalInterface signalinterface) {
+	public static RequestHandler ProcessRequest(W3CWebSocket clientsocket, Request request, SignalInterface signalinterface) throws W3CErrorException {
 
-		try {
-			switch(request.GetAction()){
-				case Constants.REQUEST_GET:
-					return new GetRequestHandler(clientsocket, request, signalinterface);
-				case Constants.REQUEST_SET:
-					return new SetRequestHandler(clientsocket, request, signalinterface);
-				case Constants.REQUEST_AUTHORIZE:
-					return new AuthorizeRequestHandler(clientsocket, request, signalinterface);
-				case Constants.REQUEST_GETMETADATA:
-					return new GetMetadataRequestHandler(clientsocket, request, signalinterface);
-				case Constants.REQUEST_SUBSCRIBE:
-					return new SubscribeRequestHandler(clientsocket, request, signalinterface);
-				case Constants.REQUEST_UNSUBSCRIBE:
-					return new UnsubscribeRequestHandler(clientsocket, request, signalinterface);
-				case Constants.REQUEST_UNSUBSCRIBEALL:
-					return new UnsubscribeAllRequestHandler(clientsocket, request, signalinterface);
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
+		switch(request.GetAction()){
+			case Constants.REQUEST_GET:
+				return new GetRequestHandler(clientsocket, request, signalinterface);
+			case Constants.REQUEST_SET:
+				return new SetRequestHandler(clientsocket, request, signalinterface);
+			case Constants.REQUEST_AUTHORIZE:
+				return new AuthorizeRequestHandler(clientsocket, request, signalinterface);
+			case Constants.REQUEST_GETMETADATA:
+				return new GetMetadataRequestHandler(clientsocket, request, signalinterface);
+			case Constants.REQUEST_SUBSCRIBE:
+				return new SubscribeRequestHandler(clientsocket, request, signalinterface);
+			case Constants.REQUEST_UNSUBSCRIBE:
+				return new UnsubscribeRequestHandler(clientsocket, request, signalinterface);
+			case Constants.REQUEST_UNSUBSCRIBEALL:
+				return new UnsubscribeAllRequestHandler(clientsocket, request, signalinterface);
+			default:
+				throw new W3CErrorException(W3CError.ERROR_GENERAL);
 		}
-		return null;
 	}
 }
